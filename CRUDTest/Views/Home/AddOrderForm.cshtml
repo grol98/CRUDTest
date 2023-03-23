@@ -1,0 +1,46 @@
+﻿@model List<ProviderDB>
+
+
+<div class="d-flex justify-content-center">
+    <h5>Создание заказа</h5>
+</div>
+
+<div class="modal-body">
+    <form id="add_form" class="text-center" action="Home/NewOrder" method="post">
+        <p>
+            <label>Номер заказа:</label><br>
+            <input name="orderNumber" required autocomplete="off" />
+        </p>
+        <p>
+            <label>Поставщик:</label><br>
+            <select name="provider">
+                @foreach (ProviderDB provider in Model)
+                {
+                    <option value="@provider.Id">@provider.Name</option>
+                }
+            </select>
+        </p>
+        <p>
+            <label>Дата выдачи:</label><br>
+            <input name="date" type="datetime-local" required />
+        </p>
+        <table class="table order_items_table">
+            <thead>
+                <tr>
+                    <th>Наименование</th>
+                    <th>Колличество</th>
+                    <th>Единица измерения</th>
+                    <th><button class="btn btn-secondary" type="button" onclick="AddRow()">Добавить строку</button></th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </form>
+    <p id="add_err" class="d-none err_msg text-danger">nope</p>
+</div>
+<div class="modal-footer">
+    <a asp-area="" asp-controller="Home" asp-action="Index"><button type="button" class="btn btn-secondary">Отмена</button></a>
+    <input form="add_form" class="btn btn-secondary add_form_button" type="submit" name="submit" value="Добавить" />
+</div>
+

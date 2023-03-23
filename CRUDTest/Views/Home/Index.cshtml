@@ -1,0 +1,76 @@
+﻿@model AllOrdersWeb
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Заказы</h1>
+    <a asp-area="" asp-controller="Home" asp-action="AddOrderForm"><button type="button" class="btn btn-secondary">Добавить Заказ</button></a><br><br>
+    <div class="d-flex justify-content-around pb-2">
+        <div>
+            <label>Номер заказа</label><br>
+            <select id="select_number" multiple size="4">
+                @foreach (string orderNumber in Model.OrderWebList.Select(p => p.Number).Distinct())
+                {
+                    <option>@orderNumber</option>
+                }
+            </select>
+        </div>
+        <div>
+            <label>Наименование товара</label><br>
+            <select id="select_item_name" multiple size="4">
+                @foreach (string itemName in Model.OrderItemNameList)
+                {
+                    <option>@itemName</option>
+                }
+            </select>
+        </div>
+        <div>
+            <label>Размерность товара</label><br>
+            <select id="select_item_unit" multiple size="4">
+                @foreach (string itemUnit in Model.OrderItemUnitList)
+                {
+                    <option>@itemUnit</option>
+                }
+            </select>
+        </div>
+        <div>
+            <label>Поставщик</label><br>
+            <select id="select_provider" multiple size="4">
+                @foreach (string provider in Model.ProviderList.Select(p => p.Name).Distinct())
+                {
+                    <option>@provider</option>
+                }
+            </select>
+        </div>
+    </div>
+    С:
+    <input id="filter_date_beg" type="date" value="@Model.timeBeg.ToString("yyyy-MM-dd")" /> По:
+    <input id="filter_date_end" type="date" value="@Model.timeEnd.ToString("yyyy-MM-dd")" />
+    <button type="button" class="btn btn-secondary" onclick="FilterOrders()">Фильтрация</button><br><br>
+    <table class="table">
+        <thead>
+            <tr>
+                <td>Номер заказа</td>
+                <td>Дата забора груза</td>
+                <td>Поставщик</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (OrderWeb order in Model.OrderWebList)
+            {
+                <tr class="order_tr" order-number="@order.Number" provider-id="@order.ProviderId" data-bs-toggle="modal" data-bs-target="#show_order">
+                    <td>@order.Number</td>
+                    <td>@order.Date</td>
+                    <td>@Model.ProviderList.FirstOrDefault(p => p.Id == order.ProviderId).Name</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="modal fade" id="show_order" tabindex="-1" aria-labelledby="show_order_label" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        
+    </div>
+</div>

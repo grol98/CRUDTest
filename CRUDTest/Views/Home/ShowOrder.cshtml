@@ -1,0 +1,47 @@
+﻿@model OrderWeb
+
+<div class="modal-content">
+
+    <div class="modal-header">
+        <h5 class="modal-title" id="show_order_label">Создание заказа</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <p>
+            <label>Номер заказа:</label><br>
+            @Model.Number
+        </p>
+        <p>
+            <label>Дата выдачи:</label><br>
+            @Model.Date
+        </p>
+        <p>
+            <label>Поставщик:</label><br>
+            @ViewData["Provider"]
+        </p>
+        <table class="table order_items_table">
+            <thead>
+                <tr>
+                    <th>Наименование</th>
+                    <th>Колличество</th>
+                    <th>Единица измерения</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (OrderItemWeb orderItem in Model.OrderItemList)
+                {
+                    <tr>
+                        <td>@orderItem.Name</td>
+                        <td>@orderItem.Quantity</td>
+                        <td>@orderItem.Unit</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+        <a asp-area="" asp-controller="Home" asp-action="RemoveOrder" asp-route-number="@Model.Number" asp-route-providerId="@Model.ProviderId"><button type="button" class="btn btn-secondary">Удалить</button></a>
+        <a asp-area="" asp-controller="Home" asp-action="EditOrderForm" asp-route-number="@Model.Number" asp-route-providerId="@Model.ProviderId"><button type="button" class="btn btn-secondary">Редактировать</button></a>
+    </div>
+</div>

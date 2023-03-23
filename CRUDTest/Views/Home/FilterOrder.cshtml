@@ -1,0 +1,10 @@
+﻿@model AllOrdersWeb
+
+@foreach (OrderWeb order in Model.OrderWebList)
+{
+    <tr class="order_tr" order-number="@order.Number" provider-id="@order.ProviderId" data-bs-toggle="modal" data-bs-target="#show_order">
+        <td>@order.Number</td>
+        <td>@order.Date</td>
+        <td>@Model.ProviderList.FirstOrDefault(p => p.Id == order.ProviderId).Name</td>
+    </tr>
+}
